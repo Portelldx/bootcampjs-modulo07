@@ -1,46 +1,59 @@
-import "./style.css";
+// Obtener referencias a los elementos del DOM
+const currentTurnDisplay = document.querySelector(".numero-turno");
+const textDisplay = document.querySelector(".texto-turno");
+const nextBtn = document.getElementById("siguiente");
+const previousBtn = document.getElementById("anterior");
+const resetBtn = document.getElementById("reset");
+const changeBtn = document.getElementById("cambiar");
+const turnInput = document.getElementById("turno-input") as HTMLInputElement;
 
-interface Group {
-  name: string;
-  year: number;
-  isActive: boolean;
-  genre: string;
+// Variable del turno actual
+let currentTurn: number = 1;
+
+// Función para actualizar el display del turno
+function displayTurn(): void {
+  const turnoFormateado: string = currentTurn.toString().padStart(2, "0");
+  if (currentTurnDisplay !== undefined && currentTurnDisplay !== null) {
+    currentTurnDisplay.textContent = turnoFormateado;
+  }
+  if (textDisplay !== undefined && textDisplay !== null) {
+    textDisplay.textContent = `Por favor, acérquese al mostrador para el turno ${turnoFormateado}`;
+  }
 }
 
-let group1: Group = {
-  name: "The Beatles",
-  year: 1960,
-  isActive: true,
-  genre: "🎵 Pop Rock",
-};
-let group2: Group = {
-  name: "Queen",
-  year: 1970,
-  isActive: false,
-  genre: " 🎸 Rock",
-};
-let group3: Group = {
-  name: "AC DC",
-  year: 1973,
-  isActive: true,
-  genre: "🤘 Hard Rock",
-};
-let group4: Group = {
-  name: "Ludwig van Beethoven",
-  year: 1770,
-  isActive: false,
-  genre: " 🎼 Clásica",
-};
-let group5: Group = {
-  name: "The Rolling Stones",
-  year: 1962,
-  isActive: true,
-  genre: " 🎸 Rock",
-};
+// Función para avanzar turno
+function nextTurn(): void {
+  currentTurn++;
+  displayTurn();
+}
 
-const estiloTitulo = "background-color:green; font-size:18px; font-weight:bold";
+// Función para retroceder turno
+function previousTurn(): void {
+  if (currentTurn > 1) {
+    currentTurn--;
+    displayTurn();
+  }
+}
 
-console.log(
-  `%c${group1.name}, ${group2.name}, ${group3.name}, ${group4.name}, ${group5.name}.`,
-  estiloTitulo
-);
+// Función para restear el turno
+function resetTurn(): void {
+  currentTurn = 0;
+  displayTurn();
+}
+
+// Función para cambiar el turno a un valor específico
+function changeTurn(): void {
+  if (turnInput !== null && turnInput !== undefined) {
+    const newTurn: number = parseInt(turnInput.value, 10);
+    // Condicional para validar sólo valores numéricos
+    if (!isNaN(newTurn)) {
+      currentTurn = newTurn;
+      displayTurn();
+    }
+  }
+}
+
+nextBtn?.addEventListener("click", nextTurn);
+previousBtn?.addEventListener("click", previousTurn);
+resetBtn?.addEventListener("click", resetTurn);
+changeBtn?.addEventListener("click", changeTurn);

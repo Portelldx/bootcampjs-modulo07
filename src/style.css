@@ -27,6 +27,8 @@ body {
   margin: 0;
   display: flex;
   place-items: center;
+  justify-content: center;
+  flex-direction: column;
   min-width: 320px;
   min-height: 100vh;
 }
@@ -53,7 +55,7 @@ h1 {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
 .logo.vanilla:hover {
-  filter: drop-shadow(0 0 2em #3178c6aa);
+  filter: drop-shadow(0 0 2em #f7df1eaa);
 }
 
 .card {
@@ -94,4 +96,46 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+.turno-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.numero-turno {
+  font-size: 6rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.texto-turno {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0;
+  text-align: center;
+}
+
+.turno-btn {
+  display: flex;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.turno-btn button {
+  margin-right: 10px;
+}
+
+.turno-input {
+  margin-top: 20px;
+}
+
+.turno-input button {
+  margin-left: 5px;
 }
