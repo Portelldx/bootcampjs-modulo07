@@ -8,18 +8,22 @@
     <title>Vite + TS</title>
   </head>
   <body>
-    <div class="turno-display">
-      <h1 class="numero-turno">01</h1>
-      <p class="texto-turno">Por favor, acérquese al mostrador</p>
-    </div>
-    <div class="turno-btn">
-      <button id="anterior">Anterior</button>
-      <button id="siguiente">Siguente</button>
-    </div>
-    <button id="reset">Reinciar</button>
-    <div class="turno-input">
-      <input type="text" id="turno-input" placeholder="Nuevo turno" />
-      <button id="cambiar">Cambiar</button>
+    <div id="app">
+      <h1>Juego de las siete y media</h1>
+      <div>
+        <div id="puntuacion"></div>
+        <img src="./images/back.jpg" id="carta" alt="Imagen de la carta" />
+        <div id="mensaje"></div>
+        <div id="gameover"></div>
+        <div id="botones">
+          <button id="damecarta">Dame carta</button>
+          <button id="meplanto" style="display: none">Me planto</button>
+          <button id="nuevapartida" style="display: none">Nueva Partida</button>
+          <button id="verfuturo" style="display: none">
+            Saber lo que habría pasado 🔮
+          </button>
+        </div>
+      </div>
     </div>
     <script type="module" src="/src/main.ts"></script>
   </body>
