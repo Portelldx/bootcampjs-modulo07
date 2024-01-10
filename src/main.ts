@@ -10,7 +10,6 @@ const gameoverElement = document.getElementById("gameover");
 const mensajeElement = document.getElementById("mensaje");
 const cartaElement = document.getElementById("carta") as HTMLImageElement;
 let juegoGanado: boolean = false;
-let puntuacionFutura: number = 0;
 
 type Carta = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
 
@@ -78,6 +77,11 @@ function handlePedirCartaClick(): void {
   sumarPuntuacion(carta);
   console.log(`Carta obtenida: ${carta}`);
   gameOver();
+
+  if (plantarseBtn) {
+    plantarseBtn.style.display = "block";
+  }
+
   dameCartaBtn.blur();
 }
 
@@ -92,11 +96,17 @@ function gameOver(): void {
     return;
   }
 
-  if (puntuacion > 7.5 && dameCartaBtn && plantarseBtn) {
+  if (puntuacion === 7.5) {
+    mostrarMensaje("¡Felicidades! ¡Has ganado!");
+    juegoGanado = true;
     deshabilitarBotones();
+    muestraNuevaPartida();
+  } else if (puntuacion > 7.5 && dameCartaBtn && plantarseBtn) {
     mostrarMensaje("🪦 GAME OVER 🪦");
+    deshabilitarBotones();
     muestraNuevaPartida();
     muestraFuturo();
+    ocultarFuturoBoton();
     plantarseBtn.style.display = "none";
   }
 }
@@ -109,6 +119,13 @@ function deshabilitarBotones(): void {
   if (plantarseBtn) {
     plantarseBtn.style.display = "none";
     plantarseBtn.disabled = true;
+  }
+}
+
+function ocultarFuturoBoton(): void {
+  if (verFuturoBtn) {
+    verFuturoBtn.style.display = "none";
+    verFuturoBtn.disabled = true;
   }
 }
 
@@ -140,10 +157,13 @@ function obtenerMensaje(puntuacion: number): void {
 }
 
 function handleMePlantoClick(): void {
+  if (juegoGanado) {
+    return;
+  }
+
   obtenerMensaje(puntuacion);
   muestraNuevaPartida();
-  dameCartaBtn.style.display = "none";
-  plantarseBtn.style.display = "none";
+  deshabilitarBotones();
   if (puntuacion <= 7) {
     muestraFuturo();
   }
@@ -151,7 +171,6 @@ function handleMePlantoClick(): void {
 
 function handleNuevaPartidaClick(): void {
   puntuacion = 0;
-  puntuacionFutura = 0;
   muestraPuntuacion();
 
   if (gameoverElement) {
@@ -194,30 +213,31 @@ function handleMuestraFuturoClick(): void {
   }
 
   const cartaFutura: number = dameCarta();
-  puntuacionFutura +=
+  puntuacion +=
     cartaFutura === 10 || cartaFutura === 11 || cartaFutura === 12
       ? 0.5
       : cartaFutura;
 
   mostrarCarta(cartaFutura);
+  muestraPuntuacion();
 
   let resultadoTexto = `Si hubieras pedido otra carta, habrías obtenido un ${cartaFutura}. `;
-  if (puntuacionFutura > 7.5) {
-    resultadoTexto += `Tu puntuación total habría sido ${puntuacionFutura}, ¡habrías perdido!`;
+  if (puntuacion > 7.5) {
+    resultadoTexto += `Tu puntuación total habría sido ${puntuacion}, ¡habrías perdido!`;
     juegoGanado = false;
     verFuturoBtn.disabled = true;
-  } else if (puntuacionFutura === 7.5) {
-    resultadoTexto += `Tu puntuación total habría sido ${puntuacionFutura}, ¡habrías ganado el juego!`;
+  } else if (puntuacion === 7.5) {
+    resultadoTexto += `Tu puntuación total habría sido ${puntuacion}, ¡habrías ganado el juego!`;
     juegoGanado = true;
     verFuturoBtn.disabled = true;
   } else {
-    resultadoTexto += `Tu puntuación total habría sido ${puntuacionFutura}.`;
+    resultadoTexto += `Tu puntuación total habría sido ${puntuacion}.`;
   }
 
   if (mensajeElement) {
     mensajeElement.textContent = resultadoTexto;
   }
-  verFuturoBtn.blur();
+  verFuturoBtn.disabled = true;
 }
 
 document.addEventListener("DOMContentLoaded", muestraPuntuacion);
@@ -225,3 +245,4 @@ document.addEventListener("DOMContentLoaded", muestraPuntuacion);
 dameCartaBtn?.addEventListener("click", handlePedirCartaClick);
 plantarseBtn?.addEventListener("click", handleMePlantoClick);
 verFuturoBtn?.addEventListener("click", handleMuestraFuturoClick);
+
