@@ -1,20 +1,20 @@
 let puntuacion: number = 0;
-const dameCartaBtn = document.getElementById("damecarta") as HTMLButtonElement;
-const plantarseBtn = document.getElementById("meplanto") as HTMLButtonElement;
+const dameCartaBtn = document.getElementById('damecarta') as HTMLButtonElement;
+const plantarseBtn = document.getElementById('meplanto') as HTMLButtonElement;
 const nuevaPartidaBtn = document.getElementById(
-  "nuevapartida"
+  'nuevapartida'
 ) as HTMLButtonElement;
-const verFuturoBtn = document.getElementById("verfuturo") as HTMLButtonElement;
+const verFuturoBtn = document.getElementById('verfuturo') as HTMLButtonElement;
 
-const gameoverElement = document.getElementById("gameover");
-const mensajeElement = document.getElementById("mensaje");
-const cartaElement = document.getElementById("carta") as HTMLImageElement;
+const gameoverElement = document.getElementById('gameover');
+const mensajeElement = document.getElementById('mensaje');
+const cartaElement = document.getElementById('carta') as HTMLImageElement;
 let juegoGanado: boolean = false;
 
 type Carta = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
 
 function muestraPuntuacion(): void {
-  const puntuacionElement = document.getElementById("puntuacion");
+  const puntuacionElement = document.getElementById('puntuacion');
   if (puntuacionElement) {
     puntuacionElement.textContent = `Puntuación: ${puntuacion}`;
   }
@@ -29,43 +29,43 @@ function mostrarCarta(carta: number): void {
   if (cartaElement) {
     switch (carta) {
       case 1:
-        cartaElement.src = "./images/1_as-copas.jpg";
+        cartaElement.src = './images/1_as-copas.jpg';
         break;
       case 2:
-        cartaElement.src = "./images/2_dos-copas.jpg";
+        cartaElement.src = './images/2_dos-copas.jpg';
         break;
       case 3:
-        cartaElement.src = "./images/3_tres-copas.jpg";
+        cartaElement.src = './images/3_tres-copas.jpg';
         break;
       case 4:
-        cartaElement.src = "./images/4_cuatro-copas.jpg";
+        cartaElement.src = './images/4_cuatro-copas.jpg';
         break;
       case 5:
-        cartaElement.src = "./images/5_cinco-copas.jpg";
+        cartaElement.src = './images/5_cinco-copas.jpg';
         break;
       case 6:
-        cartaElement.src = "./images/6_seis-copas.jpg";
+        cartaElement.src = './images/6_seis-copas.jpg';
         break;
       case 7:
-        cartaElement.src = "./images/7_siete-copas.jpg";
+        cartaElement.src = './images/7_siete-copas.jpg';
         break;
       case 8:
-        cartaElement.src = "./images/8_ocho-copas.jpg";
+        cartaElement.src = './images/8_ocho-copas.jpg';
         break;
       case 9:
-        cartaElement.src = "./images/9_nueve-copas.jpg";
+        cartaElement.src = './images/9_nueve-copas.jpg';
         break;
       case 10:
-        cartaElement.src = "./images/10_sota-copas.jpg";
+        cartaElement.src = './images/10_sota-copas.jpg';
         break;
       case 11:
-        cartaElement.src = "./images/11_caballo-copas.jpg";
+        cartaElement.src = './images/11_caballo-copas.jpg';
         break;
       case 12:
-        cartaElement.src = "./images/12_rey-copas.jpg";
+        cartaElement.src = './images/12_rey-copas.jpg';
         break;
       default:
-        console.error("Error al cargar imagen de la carta");
+        console.error('Error al cargar imagen de la carta');
         break;
     }
   }
@@ -79,7 +79,7 @@ function handlePedirCartaClick(): void {
   gameOver();
 
   if (plantarseBtn) {
-    plantarseBtn.style.display = "block";
+    plantarseBtn.style.display = 'block';
   }
 
   dameCartaBtn.blur();
@@ -92,39 +92,39 @@ function sumarPuntuacion(carta: number): void {
 
 function gameOver(): void {
   if (!gameoverElement) {
-    console.error("No se encontró el elemento gameover");
+    console.error('No se encontró el elemento gameover');
     return;
   }
 
   if (puntuacion === 7.5) {
-    mostrarMensaje("¡Felicidades! ¡Has ganado!");
+    mostrarMensaje('¡Felicidades! ¡Has ganado!');
     juegoGanado = true;
     deshabilitarBotones();
     muestraNuevaPartida();
   } else if (puntuacion > 7.5 && dameCartaBtn && plantarseBtn) {
-    mostrarMensaje("🪦 GAME OVER 🪦");
+    mostrarMensaje('🪦 GAME OVER 🪦');
     deshabilitarBotones();
     muestraNuevaPartida();
     muestraFuturo();
     ocultarFuturoBoton();
-    plantarseBtn.style.display = "none";
+    plantarseBtn.style.display = 'none';
   }
 }
 
 function deshabilitarBotones(): void {
   if (dameCartaBtn) {
-    dameCartaBtn.style.display = "none";
+    dameCartaBtn.style.display = 'none';
     dameCartaBtn.disabled = true;
   }
   if (plantarseBtn) {
-    plantarseBtn.style.display = "none";
+    plantarseBtn.style.display = 'none';
     plantarseBtn.disabled = true;
   }
 }
 
 function ocultarFuturoBoton(): void {
   if (verFuturoBtn) {
-    verFuturoBtn.style.display = "none";
+    verFuturoBtn.style.display = 'none';
     verFuturoBtn.disabled = true;
   }
 }
@@ -136,18 +136,18 @@ function mostrarMensaje(mensaje: string): void {
 }
 
 function obtenerMensaje(puntuacion: number): void {
-  let mensaje = "";
+  let mensaje = '';
 
   if (puntuacion === 7.5) {
-    mensaje = "¡Lo has clavado! ¡Enhorabuena!";
+    mensaje = '¡Lo has clavado! ¡Enhorabuena!';
   } else if (puntuacion >= 6 && puntuacion <= 7) {
-    mensaje = "Casi casi...";
+    mensaje = 'Casi casi...';
   } else if (puntuacion === 5 || puntuacion === 5.5) {
-    mensaje = "Te ha entrado el canguelo eh?";
+    mensaje = 'Te ha entrado el canguelo eh?';
   } else if (puntuacion <= 4.5) {
-    mensaje = "Has sido muy conservador.";
+    mensaje = 'Has sido muy conservador.';
   } else {
-    mensaje = "Error al obtener el mensaje";
+    mensaje = 'Error al obtener el mensaje';
     console.error(mensaje);
   }
 
@@ -174,37 +174,37 @@ function handleNuevaPartidaClick(): void {
   muestraPuntuacion();
 
   if (gameoverElement) {
-    gameoverElement.textContent = "";
+    gameoverElement.textContent = '';
   }
   if (mensajeElement) {
-    mensajeElement.textContent = "";
+    mensajeElement.textContent = '';
   }
   if (nuevaPartidaBtn) {
-    nuevaPartidaBtn.style.display = "none";
+    nuevaPartidaBtn.style.display = 'none';
   }
   if (cartaElement) {
-    cartaElement.src = "./images/back.jpg";
+    cartaElement.src = './images/back.jpg';
   }
   juegoGanado = false;
   dameCartaBtn.disabled = false;
   plantarseBtn.disabled = false;
-  dameCartaBtn.style.display = "block";
-  plantarseBtn.style.display = "block";
+  dameCartaBtn.style.display = 'block';
+  plantarseBtn.style.display = 'block';
   if (!juegoGanado) {
-    verFuturoBtn.style.display = "none";
+    verFuturoBtn.style.display = 'none';
     verFuturoBtn.disabled = false;
   }
 }
 
 function muestraNuevaPartida(): void {
   if (nuevaPartidaBtn) {
-    nuevaPartidaBtn.style.display = "block";
-    nuevaPartidaBtn.addEventListener("click", handleNuevaPartidaClick);
+    nuevaPartidaBtn.style.display = 'block';
+    nuevaPartidaBtn.addEventListener('click', handleNuevaPartidaClick);
   }
 }
 
 function muestraFuturo(): void {
-  verFuturoBtn.style.display = "block";
+  verFuturoBtn.style.display = 'block';
 }
 
 function getValorCartaMapeado(carta: number): number {
@@ -224,6 +224,7 @@ function handleMuestraFuturoClick(): void {
 
   let resultadoTexto = `Si hubieras pedido otra carta, habrías obtenido un ${
     cartaFutura > 7 ? valorMapeado : cartaFutura
+  }. `;
   if (puntuacion > 7.5) {
     resultadoTexto += `Tu puntuación total habría sido ${puntuacion}, ¡habrías perdido!`;
     juegoGanado = false;
@@ -242,9 +243,8 @@ function handleMuestraFuturoClick(): void {
   verFuturoBtn.disabled = true;
 }
 
-document.addEventListener("DOMContentLoaded", muestraPuntuacion);
+document.addEventListener('DOMContentLoaded', muestraPuntuacion);
 
-dameCartaBtn?.addEventListener("click", handlePedirCartaClick);
-plantarseBtn?.addEventListener("click", handleMePlantoClick);
-verFuturoBtn?.addEventListener("click", handleMuestraFuturoClick);
-
+dameCartaBtn?.addEventListener('click', handlePedirCartaClick);
+plantarseBtn?.addEventListener('click', handleMePlantoClick);
+verFuturoBtn?.addEventListener('click', handleMuestraFuturoClick);
