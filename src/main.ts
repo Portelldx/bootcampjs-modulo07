@@ -207,21 +207,23 @@ function muestraFuturo(): void {
   verFuturoBtn.style.display = "block";
 }
 
+function getValorCartaMapeado(carta: number): number {
+  return carta === 10 || carta === 11 || carta === 12 ? 0.5 : carta;
+}
+
 function handleMuestraFuturoClick(): void {
   if (juegoGanado) {
     return;
   }
-
   const cartaFutura: number = dameCarta();
-  puntuacion +=
-    cartaFutura === 10 || cartaFutura === 11 || cartaFutura === 12
-      ? 0.5
-      : cartaFutura;
+  const valorMapeado: number = getValorCartaMapeado(cartaFutura);
+  puntuacion += valorMapeado;
 
   mostrarCarta(cartaFutura);
   muestraPuntuacion();
 
-  let resultadoTexto = `Si hubieras pedido otra carta, habrías obtenido un ${cartaFutura}. `;
+  let resultadoTexto = `Si hubieras pedido otra carta, habrías obtenido un ${
+    cartaFutura > 7 ? valorMapeado : cartaFutura
   if (puntuacion > 7.5) {
     resultadoTexto += `Tu puntuación total habría sido ${puntuacion}, ¡habrías perdido!`;
     juegoGanado = false;
