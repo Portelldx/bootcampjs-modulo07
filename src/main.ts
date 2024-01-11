@@ -1,4 +1,5 @@
-let puntuacion: number = 0;
+import { Carta, partida, getValorCartaMapeado } from './model';
+
 const dameCartaBtn = document.getElementById('damecarta') as HTMLButtonElement;
 const plantarseBtn = document.getElementById('meplanto') as HTMLButtonElement;
 const nuevaPartidaBtn = document.getElementById(
@@ -9,14 +10,11 @@ const verFuturoBtn = document.getElementById('verfuturo') as HTMLButtonElement;
 const gameoverElement = document.getElementById('gameover');
 const mensajeElement = document.getElementById('mensaje');
 const cartaElement = document.getElementById('carta') as HTMLImageElement;
-let juegoGanado: boolean = false;
-
-type Carta = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
 
 function muestraPuntuacion(): void {
   const puntuacionElement = document.getElementById('puntuacion');
   if (puntuacionElement) {
-    puntuacionElement.textContent = `Puntuación: ${puntuacion}`;
+    puntuacionElement.textContent = `Puntuación: ${partida.puntuacion}`;
   }
 }
 
@@ -86,7 +84,8 @@ function handlePedirCartaClick(): void {
 }
 
 function sumarPuntuacion(carta: number): void {
-  puntuacion += carta === 10 || carta === 11 || carta === 12 ? 0.5 : carta;
+  partida.puntuacion +=
+    carta === 10 || carta === 11 || carta === 12 ? 0.5 : carta;
   muestraPuntuacion();
 }
 
@@ -96,12 +95,12 @@ function gameOver(): void {
     return;
   }
 
-  if (puntuacion === 7.5) {
+  if (partida.puntuacion === 7.5) {
     mostrarMensaje('¡Felicidades! ¡Has ganado!');
-    juegoGanado = true;
+    partida.juegoGanado = true;
     deshabilitarBotones();
     muestraNuevaPartida();
-  } else if (puntuacion > 7.5 && dameCartaBtn && plantarseBtn) {
+  } else if (partida.puntuacion > 7.5 && dameCartaBtn && plantarseBtn) {
     mostrarMensaje('🪦 GAME OVER 🪦');
     deshabilitarBotones();
     muestraNuevaPartida();
@@ -157,20 +156,20 @@ function obtenerMensaje(puntuacion: number): void {
 }
 
 function handleMePlantoClick(): void {
-  if (juegoGanado) {
+  if (partida.juegoGanado) {
     return;
   }
 
-  obtenerMensaje(puntuacion);
+  obtenerMensaje(partida.puntuacion);
   muestraNuevaPartida();
   deshabilitarBotones();
-  if (puntuacion <= 7) {
+  if (partida.puntuacion <= 7) {
     muestraFuturo();
   }
 }
 
 function handleNuevaPartidaClick(): void {
-  puntuacion = 0;
+  partida.puntuacion = 0;
   muestraPuntuacion();
 
   if (gameoverElement) {
@@ -185,12 +184,12 @@ function handleNuevaPartidaClick(): void {
   if (cartaElement) {
     cartaElement.src = './images/back.jpg';
   }
-  juegoGanado = false;
+  partida.juegoGanado = false;
   dameCartaBtn.disabled = false;
   plantarseBtn.disabled = false;
   dameCartaBtn.style.display = 'block';
   plantarseBtn.style.display = 'block';
-  if (!juegoGanado) {
+  if (!partida.juegoGanado) {
     verFuturoBtn.style.display = 'none';
     verFuturoBtn.disabled = false;
   }
@@ -207,17 +206,13 @@ function muestraFuturo(): void {
   verFuturoBtn.style.display = 'block';
 }
 
-function getValorCartaMapeado(carta: number): number {
-  return carta === 10 || carta === 11 || carta === 12 ? 0.5 : carta;
-}
-
 function handleMuestraFuturoClick(): void {
-  if (juegoGanado) {
+  if (partida.juegoGanado) {
     return;
   }
   const cartaFutura: number = dameCarta();
   const valorMapeado: number = getValorCartaMapeado(cartaFutura);
-  puntuacion += valorMapeado;
+  partida.puntuacion += valorMapeado;
 
   mostrarCarta(cartaFutura);
   muestraPuntuacion();
@@ -225,16 +220,16 @@ function handleMuestraFuturoClick(): void {
   let resultadoTexto = `Si hubieras pedido otra carta, habrías obtenido un ${
     cartaFutura > 7 ? valorMapeado : cartaFutura
   }. `;
-  if (puntuacion > 7.5) {
-    resultadoTexto += `Tu puntuación total habría sido ${puntuacion}, ¡habrías perdido!`;
-    juegoGanado = false;
+  if (partida.puntuacion > 7.5) {
+    resultadoTexto += `Tu puntuación total habría sido ${partida.puntuacion}, ¡habrías perdido!`;
+    partida.juegoGanado = false;
     verFuturoBtn.disabled = true;
-  } else if (puntuacion === 7.5) {
-    resultadoTexto += `Tu puntuación total habría sido ${puntuacion}, ¡habrías ganado el juego!`;
-    juegoGanado = true;
+  } else if (partida.puntuacion === 7.5) {
+    resultadoTexto += `Tu puntuación total habría sido ${partida.puntuacion}, ¡habrías ganado el juego!`;
+    partida.juegoGanado = true;
     verFuturoBtn.disabled = true;
   } else {
-    resultadoTexto += `Tu puntuación total habría sido ${puntuacion}.`;
+    resultadoTexto += `Tu puntuación total habría sido ${partida.puntuacion}.`;
   }
 
   if (mensajeElement) {
