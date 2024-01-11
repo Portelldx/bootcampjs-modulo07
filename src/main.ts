@@ -1,4 +1,5 @@
-import { Carta, partida, getValorCartaMapeado } from './model';
+import { partida } from './model';
+import { getValorCartaMapeado, dameCarta, sumarPuntuacion } from './motor';
 
 const dameCartaBtn = document.getElementById('damecarta') as HTMLButtonElement;
 const plantarseBtn = document.getElementById('meplanto') as HTMLButtonElement;
@@ -16,11 +17,6 @@ function muestraPuntuacion(): void {
   if (puntuacionElement) {
     puntuacionElement.textContent = `Puntuación: ${partida.puntuacion}`;
   }
-}
-
-function dameCarta(): Carta {
-  const carta: Carta = (Math.floor(Math.random() * 10) + 1) as Carta;
-  return carta > 7 ? ((carta + 2) as Carta) : carta;
 }
 
 function mostrarCarta(carta: number): void {
@@ -73,6 +69,7 @@ function handlePedirCartaClick(): void {
   const carta: number = dameCarta();
   mostrarCarta(carta);
   sumarPuntuacion(carta);
+  muestraPuntuacion();
   console.log(`Carta obtenida: ${carta}`);
   gameOver();
 
@@ -81,12 +78,6 @@ function handlePedirCartaClick(): void {
   }
 
   dameCartaBtn.blur();
-}
-
-function sumarPuntuacion(carta: number): void {
-  partida.puntuacion +=
-    carta === 10 || carta === 11 || carta === 12 ? 0.5 : carta;
-  muestraPuntuacion();
 }
 
 function gameOver(): void {
