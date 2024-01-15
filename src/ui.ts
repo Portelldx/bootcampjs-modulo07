@@ -129,7 +129,7 @@ function obtenerMensaje(puntuacion: number): void {
     console.error(mensaje);
   }
 
-  if (mensajeElement) {
+  if (mensajeElement && mensajeElement instanceof HTMLElement) {
     mensajeElement.textContent = mensaje;
   }
 }
@@ -150,13 +150,13 @@ function handleNuevaPartidaClick(): void {
   nuevaPartida();
   muestraPuntuacion();
 
-  if (gameoverElement) {
+  if (gameoverElement && gameoverElement instanceof HTMLElement) {
     gameoverElement.textContent = '';
   }
-  if (mensajeElement) {
+  if (mensajeElement && mensajeElement instanceof HTMLElement) {
     mensajeElement.textContent = '';
   }
-  if (nuevaPartidaBtn) {
+  if (nuevaPartidaBtn && nuevaPartidaBtn instanceof HTMLButtonElement) {
     nuevaPartidaBtn.style.display = 'none';
   }
   if (cartaElement && cartaElement instanceof HTMLImageElement) {
@@ -183,7 +183,7 @@ function handleNuevaPartidaClick(): void {
 }
 
 function muestraNuevaPartida(): void {
-  if (nuevaPartidaBtn) {
+  if (nuevaPartidaBtn && nuevaPartidaBtn instanceof HTMLButtonElement) {
     nuevaPartidaBtn.style.display = 'block';
     nuevaPartidaBtn.addEventListener('click', handleNuevaPartidaClick);
   }
@@ -215,7 +215,7 @@ export function handleMuestraFuturoClick(): void {
       : ', ¡has ganado el juego!'
     : '.';
 
-  if (mensajeElement) {
+  if (mensajeElement && mensajeElement instanceof HTMLElement) {
     mensajeElement.textContent = resultadoTexto;
   }
 
