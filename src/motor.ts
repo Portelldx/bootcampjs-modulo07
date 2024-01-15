@@ -35,7 +35,7 @@ export function verFuturo(): {
 } {
   const cartaFutura: number = dameCarta();
   const valorMapeado: number = getValorCartaMapeado(cartaFutura);
-  partida.puntuacion += valorMapeado; // Actualiza la puntuación en la partida
+  partida.puntuacion += valorMapeado;
   const juegoTerminado = partida.puntuacion > 7.5 || partida.puntuacion === 7.5;
 
   return { cartaFutura, nuevaPuntuacion: partida.puntuacion, juegoTerminado };
