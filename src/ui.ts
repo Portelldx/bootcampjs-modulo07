@@ -5,6 +5,7 @@ import {
   nuevaPartida,
   gameOver,
   verFuturo,
+  obtenerRutaImagen,
 } from './motor';
 
 const gameoverElement = document.getElementById('gameover');
@@ -29,24 +30,12 @@ export function eventListeners(): void {
   }
 }
 
-function mostrarCarta(carta: number): void {
-  if (cartaElement && cartaElement instanceof HTMLImageElement) {
-    const imagenesCartas: Record<number, string> = {
-      1: './images/1_as-copas.jpg',
-      2: './images/2_dos-copas.jpg',
-      3: './images/3_tres-copas.jpg',
-      4: './images/4_cuatro-copas.jpg',
-      5: './images/5_cinco-copas.jpg',
-      6: './images/6_seis-copas.jpg',
-      7: './images/7_siete-copas.jpg',
-      8: './images/8_ocho-copas.jpg',
-      9: './images/9_nueve-copas.jpg',
-      10: './images/10_sota-copas.jpg',
-      11: './images/11_caballo-copas.jpg',
-      12: './images/12_rey-copas.jpg',
-    };
+export function mostrarCarta(carta: number): void {
+  const cartaElement = document.getElementById('carta');
 
-    const imagenSrc = imagenesCartas[carta];
+  if (cartaElement && cartaElement instanceof HTMLImageElement) {
+    const imagenSrc = obtenerRutaImagen(carta);
+
     if (imagenSrc) {
       cartaElement.src = imagenSrc;
     } else {
