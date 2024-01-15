@@ -203,7 +203,7 @@ export function handleMuestraFuturoClick(): void {
   const { cartaFutura, nuevaPuntuacion, juegoTerminado } = verFuturo();
 
   mostrarCarta(cartaFutura);
-  muestraPuntuacion(); // Actualizar la puntuación en la UI con la nueva puntuación
+  muestraPuntuacion();
 
   let resultadoTexto = `Si hubieras pedido otra carta, habrías obtenido un ${
     cartaFutura > 7 ? 0.5 : cartaFutura
