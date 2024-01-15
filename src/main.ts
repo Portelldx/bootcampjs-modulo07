@@ -1,4 +1,5 @@
-import { eventListeners, nuevaPartida } from './ui';
+import { eventListeners } from './ui';
+import { nuevaPartida } from './motor';
 
 document.addEventListener('DOMContentLoaded', () => {
   nuevaPartida();

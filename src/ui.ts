@@ -1,38 +1,36 @@
 import { partida } from './model';
-import { getValorCartaMapeado, dameCarta, sumarPuntuacion } from './motor';
+import {
+  dameCarta,
+  sumarPuntuacion,
+  nuevaPartida,
+  gameOver,
+  verFuturo,
+} from './motor';
 
 const gameoverElement = document.getElementById('gameover');
 const mensajeElement = document.getElementById('mensaje');
-const cartaElement = document.getElementById('carta') as HTMLImageElement;
-const nuevaPartidaBtn = document.getElementById(
-  'nuevapartida'
-) as HTMLButtonElement;
-export const verFuturoBtn = document.getElementById(
-  'verfuturo'
-) as HTMLButtonElement;
-export const dameCartaBtn = document.getElementById(
-  'damecarta'
-) as HTMLButtonElement;
-export const plantarseBtn = document.getElementById(
-  'meplanto'
-) as HTMLButtonElement;
+const cartaElement = document.getElementById('carta');
+const nuevaPartidaBtn = document.getElementById('nuevapartida');
+export const verFuturoBtn = document.getElementById('verfuturo');
+export const dameCartaBtn = document.getElementById('damecarta');
+export const plantarseBtn = document.getElementById('meplanto');
 
 export function eventListeners(): void {
-  const dameCartaBtn = document.getElementById(
-    'damecarta'
-  ) as HTMLButtonElement;
-  const plantarseBtn = document.getElementById('meplanto') as HTMLButtonElement;
-  const verFuturoBtn = document.getElementById(
-    'verfuturo'
-  ) as HTMLButtonElement;
+  if (dameCartaBtn && dameCartaBtn instanceof HTMLButtonElement) {
+    dameCartaBtn.addEventListener('click', handlePedirCartaClick);
+  }
 
-  dameCartaBtn?.addEventListener('click', handlePedirCartaClick);
-  plantarseBtn?.addEventListener('click', handleMePlantoClick);
-  verFuturoBtn?.addEventListener('click', handleMuestraFuturoClick);
+  if (plantarseBtn && plantarseBtn instanceof HTMLButtonElement) {
+    plantarseBtn.addEventListener('click', handleMePlantoClick);
+  }
+
+  if (verFuturoBtn && verFuturoBtn instanceof HTMLButtonElement) {
+    verFuturoBtn.addEventListener('click', handleMuestraFuturoClick);
+  }
 }
 
 function mostrarCarta(carta: number): void {
-  if (cartaElement) {
+  if (cartaElement && cartaElement instanceof HTMLImageElement) {
     const imagenesCartas: Record<number, string> = {
       1: './images/1_as-copas.jpg',
       2: './images/2_dos-copas.jpg',
@@ -59,60 +57,51 @@ function mostrarCarta(carta: number): void {
 
 function muestraPuntuacion(): void {
   const puntuacionElement = document.getElementById('puntuacion');
-  if (puntuacionElement) {
+  if (puntuacionElement && puntuacionElement instanceof HTMLElement) {
     puntuacionElement.textContent = `Puntuación: ${partida.puntuacion}`;
   }
 }
 
 export function handlePedirCartaClick(): void {
-  const carta: number = dameCarta();
+  const carta = dameCarta();
   mostrarCarta(carta);
   sumarPuntuacion(carta);
   muestraPuntuacion();
-  console.log(`Carta obtenida: ${carta}`);
-  gameOver();
 
   if (plantarseBtn) {
     plantarseBtn.style.display = 'block';
   }
 
-  dameCartaBtn.blur();
-}
-
-function gameOver(): void {
-  if (!gameoverElement) {
-    console.error('No se encontró el elemento gameover');
-    return;
+  if (dameCartaBtn) {
+    dameCartaBtn.blur();
   }
 
-  if (partida.puntuacion === 7.5) {
+  if (gameOver()) {
     mostrarMensaje('¡Felicidades! ¡Has ganado!');
-    partida.juegoGanado = true;
     deshabilitarBotones();
     muestraNuevaPartida();
-  } else if (partida.puntuacion > 7.5 && dameCartaBtn && plantarseBtn) {
+  } else if (partida.puntuacion > 7.5) {
     mostrarMensaje('🪦 GAME OVER 🪦');
     deshabilitarBotones();
     muestraNuevaPartida();
     muestraFuturo();
     ocultarFuturoBoton();
-    plantarseBtn.style.display = 'none';
   }
 }
 
 function deshabilitarBotones(): void {
-  if (dameCartaBtn) {
+  if (dameCartaBtn && dameCartaBtn instanceof HTMLButtonElement) {
     dameCartaBtn.style.display = 'none';
     dameCartaBtn.disabled = true;
   }
-  if (plantarseBtn) {
+  if (plantarseBtn && plantarseBtn instanceof HTMLButtonElement) {
     plantarseBtn.style.display = 'none';
     plantarseBtn.disabled = true;
   }
 }
 
 function ocultarFuturoBoton(): void {
-  if (verFuturoBtn) {
+  if (verFuturoBtn && verFuturoBtn instanceof HTMLButtonElement) {
     verFuturoBtn.style.display = 'none';
     verFuturoBtn.disabled = true;
   }
@@ -170,15 +159,24 @@ function handleNuevaPartidaClick(): void {
   if (nuevaPartidaBtn) {
     nuevaPartidaBtn.style.display = 'none';
   }
-  if (cartaElement) {
+  if (cartaElement && cartaElement instanceof HTMLImageElement) {
     cartaElement.src = './images/back.jpg';
   }
   partida.juegoGanado = false;
-  dameCartaBtn.disabled = false;
-  plantarseBtn.disabled = false;
-  dameCartaBtn.style.display = 'block';
-  plantarseBtn.style.display = 'block';
-  if (!partida.juegoGanado) {
+  if (dameCartaBtn && dameCartaBtn instanceof HTMLButtonElement) {
+    dameCartaBtn.disabled = false;
+    dameCartaBtn.style.display = 'block';
+  }
+  if (plantarseBtn && plantarseBtn instanceof HTMLButtonElement) {
+    plantarseBtn.disabled = false;
+    plantarseBtn.style.display = 'none';
+  }
+
+  if (
+    !partida.juegoGanado &&
+    verFuturoBtn &&
+    verFuturoBtn instanceof HTMLButtonElement
+  ) {
     verFuturoBtn.style.display = 'none';
     verFuturoBtn.disabled = false;
   }
@@ -192,42 +190,36 @@ function muestraNuevaPartida(): void {
 }
 
 function muestraFuturo(): void {
-  verFuturoBtn.style.display = 'block';
+  if (verFuturoBtn && verFuturoBtn instanceof HTMLButtonElement) {
+    verFuturoBtn.style.display = 'block';
+  }
 }
 
 export function handleMuestraFuturoClick(): void {
   if (partida.juegoGanado) {
     return;
   }
-  const cartaFutura: number = dameCarta();
-  const valorMapeado: number = getValorCartaMapeado(cartaFutura);
-  partida.puntuacion += valorMapeado;
+
+  const { cartaFutura, nuevaPuntuacion, juegoTerminado } = verFuturo();
 
   mostrarCarta(cartaFutura);
-  muestraPuntuacion();
+  muestraPuntuacion(); // Actualizar la puntuación en la UI con la nueva puntuación
 
   let resultadoTexto = `Si hubieras pedido otra carta, habrías obtenido un ${
-    cartaFutura > 7 ? valorMapeado : cartaFutura
-  }. `;
-  if (partida.puntuacion > 7.5) {
-    resultadoTexto += `Tu puntuación total habría sido ${partida.puntuacion}, ¡habrías perdido!`;
-    partida.juegoGanado = false;
-    verFuturoBtn.disabled = true;
-  } else if (partida.puntuacion === 7.5) {
-    resultadoTexto += `Tu puntuación total habría sido ${partida.puntuacion}, ¡habrías ganado el juego!`;
-    partida.juegoGanado = true;
-    verFuturoBtn.disabled = true;
-  } else {
-    resultadoTexto += `Tu puntuación total habría sido ${partida.puntuacion}.`;
-  }
+    cartaFutura > 7 ? 0.5 : cartaFutura
+  }. Tu puntuación total ahora es ${nuevaPuntuacion}`;
+
+  resultadoTexto += juegoTerminado
+    ? nuevaPuntuacion > 7.5
+      ? ', ¡has perdido!'
+      : ', ¡has ganado el juego!'
+    : '.';
 
   if (mensajeElement) {
     mensajeElement.textContent = resultadoTexto;
   }
-  verFuturoBtn.disabled = true;
-}
 
-export const nuevaPartida = (): void => {
-  partida.puntuacion = 0;
-  partida.juegoGanado = false;
-};
+  if (verFuturoBtn && verFuturoBtn instanceof HTMLButtonElement) {
+    verFuturoBtn.disabled = true;
+  }
+}
