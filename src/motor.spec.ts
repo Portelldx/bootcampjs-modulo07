@@ -142,7 +142,7 @@ describe('obtenerRutaImagen', () => {
   it('Debería devolver null para una carta inexistente', () => {
     // Arrange
 
-    /* Con el tipado y el casting de type Carta no haria falta este test ya que no hay margen de error, cierto?
+    /* Con el tipado y el casting de type Carta no haria falta este test ya que no hay margen de error,
     Lo hice con number para practicar metodos y ver el que el resultado es el esperado. */
     const carta: number = 13;
 
